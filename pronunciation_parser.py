@@ -1,10 +1,20 @@
-unparseddict = open('dictionary/cmudict.txt','r')
 
-words = {}
-for row in unparseddict:
-	word_tho = row.strip().split(" ")
-	words[word_tho[0]] = word_tho[2:]
+def open_dictionary():
+	unparseddict = open('dictionary/cmudict.txt','r')
+	return unparseddict
 
-for key in words:
+
+
+def create_dict(dictionary):
+	words = {}
+	for row in dictionary:
+		word_tho = row.strip().split(" ")
+		words[word_tho[0]] = word_tho[2:]
+	return words
+
+everyword = create_dict(open_dictionary())
+
+for key in everyword:
 	print key
-	print words[key] 
+	print everyword[key] 
+
