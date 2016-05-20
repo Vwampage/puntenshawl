@@ -35,5 +35,11 @@ def open_json_dictionary():
 	return definitions
 
 
+def open_xml_dictionary():
+	thesaurus_dict = xml.etree.ElementTree.parse('dictionary/gcide_xml-0.51/xml_files/gcide_c.xml').getroot()
+	return thesaurus_dict
+
+pprint(open_xml_dictionary())
+
 #pprint(open_json_dictionary()["YIELD"])
 
