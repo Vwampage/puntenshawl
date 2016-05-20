@@ -1,0 +1,312 @@
+<HTML>
+
+<HEAD>
+<TITLE>GCIDE_XML</TITLE>
+</HEAD>
+
+<BODY>
+<H1 ALIGN="center">GCIDE_XML</H1>
+
+<H2 ALIGN="center">
+	The GNU version of The Collaborative International Dictionary of English,<BR />
+	presented in the Extensible Markup Language
+</H2>
+
+<H4 ALIGN="center">
+	Based on GCIDE version 0.51 (March 4, 2012),<BR />
+	converted into XML on June 11, 2015<BR />
+	by Michael Dyck (jmdyck@ibiblio.org).
+</H4>
+
+<HR>
+
+<P>
+Contents of this page:
+</P>
+
+<UL>
+<LI><A HREF="#what_is_gcide">What is GCIDE?</A>
+<LI><A HREF="#search_form">Headword Search</A>
+<LI><A HREF="#the_zip_files">The Zip File</A>
+<LI><A HREF="#the_text_files">The Text Files</A>
+<LI><A HREF="#copying_and_disclaimer">Copying and Disclaimer</A>
+<LI><A HREF="#GNU_dictionary">A Note on the GNU Dictionary Project</A>
+</UL>
+
+
+<HR>
+<A NAME="what_is_gcide"><H4>What is GCIDE?</H4></A>
+
+<P>
+<A HREF="ftp://ftp.gnu.org/gnu/gcide/">GCIDE</A>
+is the GNU Project's publication of CIDE,
+the Collaborative International Dictionary of English.
+It is a freely-available set of ASCII files
+containing the marked-up text of a substantial English dictionary.
+(131,565 headwords and growing!)
+</P>
+
+<P>From GCIDE's README file:
+
+<BLOCKQUOTE>
+<PRE>
+           This dictionary was derived from the
+         Webster's Revised Unabridged Dictionary
+                 Version published 1913
+               by the  C. &amp; G. Merriam Co.
+                   Springfield, Mass.
+                 Under the direction of
+                Noah Porter, D.D., LL.D.
+
+and has been supplemented with some of the definitions from
+           WordNet, a semantic network created by
+              the Cognitive Science Department
+                 of Princeton University
+                  under the direction of
+                   Prof. George Miller
+
+and is being proof-read and supplemented by volunteers from around the
+world.  This is an unfunded project, and future enhancement of this
+dictionary will depend on the efforts of volunteers willing to help build
+this free resource into a comprehensive body of general information.  New
+definitions for missing words or words senses and longer explanatory notes,
+as well as images to accompany the articles are needed.  More modern
+illustrative quotations giving recent examples of usage of the words in
+their various senses will be very helpful, since most quotations in the
+original 1913 dictionary are now well over 100 years old.
+</PRE>
+</BLOCKQUOTE>
+
+<P>
+You can find out more about this ongoing project at 
+<A HREF="http://www.micra.com/">MICRA, Inc's home page</A>.
+
+<P>
+Version 0.51 of GCIDE can be obtained from
+<A HREF="ftp://ftp.gnu.org/gnu/gcide/">the GNU FTP site</A>.
+It uses a markup notation that is almost, but not quite, XML.
+I figured it would be more useful as a well-formed XML document,
+so I undertook the conversion.
+The result is GCIDE_XML.
+It's possible that, at some point in the future,
+GCIDE itself will be published in XML,
+at which point this website will become redundant.
+</P>
+
+<P>
+If you're wondering what the tags mean, see GCIDE's
+<A HREF="http://micra.com/dictionary/tagset.txt">tagset.txt</A> file.
+</P>
+
+<HR>
+<A NAME="search_form"><H4>Headword Search</H4></A>
+
+<P>
+Thanks to <A HREF="http://www.dream.com.ua">Alexei Puzikov</A>
+for submitting <A HREF="headword_search.pl.txt">a nice little Perl script</A>
+to perform a headword search.
+(I might never have gotten around to writing one on my own.)
+</P>
+
+<CENTER>
+	<FORM action="cgi-bin/headword_search.pl" method="GET">
+		<B>Search for:</B>
+		<INPUT type="Text"   name="query" size="32" maxlength="128">
+		<INPUT type="Submit" name=""      value="Submit"><BR>
+	</FORM>
+</CENTER>
+
+<P>
+Perl-style regular expressions are permitted.
+
+For example, a query of <CODE>fool.*</CODE>
+will (in a few seconds) return entries for
+<I>fool</I>,
+<I>foolery</I>,
+<I>foolfish</I>, and
+<I>foolhardihood</I>,
+among many others.
+</P>
+
+<P>
+If the first character of the query is not a letter
+(i.e., it's a regexp metacharacter),
+the search will take significantly longer,
+since it will scan all files.
+For example,
+<CODE>.etch</CODE> will return entries for
+	<I>fetch</I>,
+	<I>ketch</I>,
+	<I>letch</I>,
+	<I>retch</I>, and
+	<I>vetch</I>,
+but it will take about a minute.
+</P>
+
+
+<HR>
+<A NAME="the_zip_files"><H4>The Zip file</H4></A>
+
+<P>
+Here's all of GCIDE_XML in
+<A HREF="gcide_xml-0.51.zip">a single zip file</A> (14,014 kb).
+</P>
+
+<HR>
+<A NAME="the_text_files"><H4>The Text Files</H4></A>
+
+<P>
+The "root file" of the XML document is
+<A HREF="xml_files/gcide.xml"><CODE>gcide.xml</CODE></A> (33 kb).
+It declares and references the following files as SYSTEM entities:
+</P>
+
+<PRE>
+            <A HREF="xml_files/gcide_authorities.xml"> authorities </A>  278 kb
+            <A HREF="xml_files/gcide_abbreviations.xml">abbreviations</A>   37 kb
+            <A HREF="xml_files/gcide_a.xml">      A      </A> 3886 kb
+            <A HREF="xml_files/gcide_b.xml">      B      </A> 3273 kb
+            <A HREF="xml_files/gcide_c.xml">      C      </A> 5718 kb
+            <A HREF="xml_files/gcide_d.xml">      D      </A> 3485 kb
+            <A HREF="xml_files/gcide_e.xml">      E      </A> 2389 kb
+            <A HREF="xml_files/gcide_f.xml">      F      </A> 2527 kb
+            <A HREF="xml_files/gcide_g.xml">      G      </A> 1859 kb
+            <A HREF="xml_files/gcide_h.xml">      H      </A> 2172 kb
+            <A HREF="xml_files/gcide_i.xml">      I      </A> 2481 kb
+            <A HREF="xml_files/gcide_j.xml">      J      </A>  510 kb
+            <A HREF="xml_files/gcide_k.xml">      K      </A>  485 kb
+            <A HREF="xml_files/gcide_l.xml">      L      </A> 2068 kb
+            <A HREF="xml_files/gcide_m.xml">      M      </A> 3101 kb
+            <A HREF="xml_files/gcide_n.xml">      N      </A> 1099 kb
+            <A HREF="xml_files/gcide_o.xml">      O      </A> 1463 kb
+            <A HREF="xml_files/gcide_p.xml">      P      </A> 4888 kb
+            <A HREF="xml_files/gcide_q.xml">      Q      </A>  325 kb
+            <A HREF="xml_files/gcide_r.xml">      R      </A> 2773 kb
+            <A HREF="xml_files/gcide_s.xml">      S      </A> 6521 kb
+            <A HREF="xml_files/gcide_t.xml">      T      </A> 3076 kb
+            <A HREF="xml_files/gcide_u.xml">      U      </A> 1131 kb
+            <A HREF="xml_files/gcide_v.xml">      V      </A>  986 kb
+            <A HREF="xml_files/gcide_w.xml">      W      </A> 1600 kb
+            <A HREF="xml_files/gcide_x.xml">      X      </A>   60 kb
+            <A HREF="xml_files/gcide_y.xml">      Y      </A>  196 kb
+            <A HREF="xml_files/gcide_z.xml">      Z      </A>  147 kb
+</PRE>
+
+<P>
+<A NAME='note_re_browser_errors'></a>
+Please note that only <CODE>gcide.xml</CODE>
+is a <EM>document entity</EM> --
+each "letter" file is an <EM>external general parsed entity</EM>.
+(See
+<A HREF="http://www.w3.org/TR/1998/REC-xml-19980210.html#wf-entities">
+section 4.3.2 of the XML specification</A>.)
+If you give a letter file to an XML processor that expects a document entity,
+it will rightfully report that the file's content is not well-formed.
+For instance, Internet Explorer 5 will complain that
+"only one top level element is allowed in an XML document".
+Other XML processors might (also) report violation of the
+<A HREF="http://www.w3.org/TR/1998/REC-xml-19980210.html#wf-entdeclared">
+Entity Declared</A>
+constraint.
+
+<A NAME="DTD"></A>
+<P>
+The file <CODE>gcide.xml</CODE>
+now contains a complete DTD for the document.
+Formerly, it only declared character and external entities;
+now it includes element type declarations
+and attribute-list declarations.
+Please note that the element type declarations
+have been <EM>generated</EM> from the existing document,
+and thus are somewhat inelegant.
+</P>
+
+<HR>
+<A NAME="copying_and_disclaimer"><H4>Copying and Disclaimer</H4></A>
+
+<P>
+From the introduction to each file in GCIDE:
+</P>
+
+<BLOCKQUOTE>
+<P>
+GCIDE is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+</P>
+
+<P>
+GCIDE is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+</P>
+
+<P>
+You should have received a copy of the GNU General Public License
+along with this copy of GCIDE; see the file COPYING.  If not, write 
+to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.
+</P>
+</BLOCKQUOTE>
+
+<P>
+Since GCIDE is made available under the terms
+of the GNU General Public License, GCIDE_XML
+is necessarily also published under those terms.
+See the file <A HREF="gpl.txt">gpl.txt</A> or
+<A HREF="http://www.gnu.org/copyleft/gpl.txt">
+http://www.gnu.org/copyleft/gpl.txt</A>.
+</P>
+
+<HR>
+<A NAME="GNU_dictionary"><H4>A Note on the GNU Dictionary Project</H4></A>
+
+<p>
+For a while in the mid-1990's,
+the Free Software Foundation had its own project
+to put a large English dictionary online.
+You can read about the GNU Dictionary Project
+<a href="GNU_dictionary_project.html">here</a>.
+</p>
+
+<HR>
+
+<P>
+Web page by Michael Dyck
+(<A HREF="mailto:jmdyck@ibiblio.org">jmdyck@ibiblio.org</A>).
+</P>
+
+<P>
+History of this page:
+<UL>
+<LI>1999-10-17: First upload (0.41).</LI>
+<LI>1999-10-18: List some things I hope to provide eventually.</LI>
+<LI>1999-10-20: Add single zip file.</LI>
+<LI>1999-11-07: Add note that "letter" files are not document entities.</LI>
+<LI>1999-11-14: <CODE>gcide.xml</CODE> now contains a complete DTD. Also, fix some primordial markup typos in <CODE>gcide_c2.xml</CODE>.</LI>
+<LI>1999-11-20: Add headword search form.
+<LI>2000-09-12: Upload version 0.43.</LI>
+<LI>2001-07-16: Update Alexei Puzikov's email address.</LI>
+<LI>2001-09-09: Add non-CGI link to headword_search script.</LI>
+<LI>2002-05-30: Fix a bug in the headword_search script.</LI>
+<LI>2002-05-30: At some point, ftp://prep.ai.mit.edu/gnu/dictionary changed to .../gcide. I update my hrefs.</LI>
+<LI>2002-06-16: Upload version 0.46, including 'authorities' and 'abbreviations' sections.</LI>
+<LI>2003-04-17: Change prep.ai.mit.edu to ftp.gnu.org.</LI>
+<LI>2003-04-27: Add note about the original GNU Dictionary Project.</LI>
+<LI>2007-11-18: Change the URL for MICRA, Inc
+from <A HREF="http://humanities.uchicago.edu/homes/MICRA/">here</a>
+  to <A HREF="http://www.micra.com/">here</A>.
+<!-- 2007-11-18: Change my email address to @ibiblio.org, except in .xml files -->
+<LI>2015-06-11: Upload version 0.51.</LI>
+</UL>
+</P>
+
+<P>
+Web space generously provided by 
+<A HREF="http://ibiblio.org">ibiblio</A>
+</P>
+
+</BODY>
+</HTML>
