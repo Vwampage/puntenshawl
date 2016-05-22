@@ -19,8 +19,8 @@ def create_dict(dictionary):
 		words[word_tho[0]] = word_tho[2:]
 	return words
 
-everyword = create_dict(open_dictionary())
-print everyword['POTATO']
+#everyword = create_dict(open_dictionary())
+#print everyword['POTATO']
 # for key in everyword:
 # 	print key
 # 	print everyword[key] 
@@ -36,10 +36,10 @@ def open_json_dictionary():
 
 
 def open_xml_dictionary():
-	thesaurus_dict = xml.etree.ElementTree.parse('dictionary/gcide_xml-0.51/xml_files/gcide_c.xml').getroot()
-	return thesaurus_dict
+	wiktionary = xml.etree.ElementTree.parse('/Volumes/Photodrive 6000/Wikipedia/wikidatawiki-20160501-pages-articles-multistream.xml').getroot()
+	return wiktionary
 
-pprint(open_xml_dictionary())
+#pprint(open_xml_dictionary())
 
 #pprint(open_json_dictionary()["YIELD"])
 
