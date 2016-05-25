@@ -6,7 +6,7 @@ import xml.etree.ElementTree
 # class SemanticWord(object):
 # 	def __init__(word, definition, defnition_graph, pronunciation)
 
-
+#for i in $(cat /usr/share/dict/words); do python osx_dictionary_caller.py ${i}; done
 
 def open_dictionary():
 	unparseddict = open('dictionary/cmudict.txt','r')
