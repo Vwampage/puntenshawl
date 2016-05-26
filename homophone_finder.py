@@ -26,14 +26,44 @@ def different_lengths(input_word,compare_word):
 		if sound in all_words[compare_word]:
 			matching_sounds += 1
 	if matching_sounds == len(all_words[input_word]):
-		print len(all_words[input_word])
-		print matching_sounds
+		#print len(all_words[input_word])
+		#print matching_sounds
 		return True
 	else:
 		return False
 
-def sublistExists(longerList, shorterList):
-    return ''.join(map(str, shorterList)) in ''.join(map(str, longerList))
+def whichIsShorterLetters(word1,word2):
+	if len(word1) < len(word2):
+		return (word1, word2, len(word2)-len(word1))
+	else:
+		return (word2, word1, len(word1)-len(word2))
+
+def whichIsShorterSounds(word1,word2):
+	if len(all_words[word1]) < len(all_words[word2]):
+			return (word1, word2, len(all_words[word2])-len(all_words[word1]))
+	else:
+		return (word2, word1, len(all_words[word1])-len(all_words[word2]))	
+
+def isShortInLongLetters(shorterWord,longerWord):
+	return shorterWord in longerWord
+
+def isShortInLongSounds(shorterList,longerList):
+	return ''.join(map(str, shorterList)) in ''.join(map(str, longerList))
+
+
+def word_in_other_words(input_word,compare_word):
+	sounds = whichIsShorterSounds(input_word, compare_word)
+	letters = whichIsShorterLetters(input_word,compare_word)
+	if isShortInLongSounds(all_words[sounds[0]], all_words[sounds[1]]) and not isShortInLongLetters(sounds[0], sounds[1]):
+		return sounds
+	elif isShortInLongLetters(letters[0], letters[1]) and not isShortInLongSounds(all_words[letters[0]], all_words[letters[1]]):
+		return letters
+	else:
+		return False
+
+# def sublistExists(shorterList, longerList):
+#     return ''.join(map(str, shorterList)) in ''.join(map(str, longerList))
+
 
 
 # def partial_sequence_comparison(input_word,compare_word):
@@ -51,19 +81,35 @@ def sublistExists(longerList, shorterList):
 
 #def compare_length(input_word,compare_word):
 
-# for key in all_words:
-# 	if match_sounds(pun_on_this,key):
-# 		print key
-# 	#print "More than 1/2 matching sounds in word:"
-# 	if different_lengths(pun_on_this,key):
-# 		print key
-
 for key in all_words:
-	for key2 in all_words:
-		if len(all_words[key]) <= len(all_words[key2]):
-			if sublistExists(all_words[key2],all_words[key]):
-				print "You put the %s in %s!" % (key, key2)
-			elif sublistExists(all_words[key],all_words[key2]):
-				print "You put the %s in %s!" % (key2, key)
+	if match_sounds(pun_on_this,key):
+		print key
+	#print "More than 1/2 matching sounds in word:"
+	if different_lengths(pun_on_this,key):
+		print key
+	blankInBlank = word_in_other_words(pun_on_this,key)
+	if blankInBlank:
+		print "You put the %s in %s!" % (blankInBlank[0].lower(), blankInBlank[1].lower())
 
+
+
+
+#Here you should also take into account letter sequence. If letter sequence matches AND sound DOES NOT match, then put it in. Could be funnier
+#also maybe make a dictionary with tuples as the key to actually comb through because speed.
+
+### THIS SECTION WOULD RENDER A FULL SET OF ___ IN ___ PUNS.
+# blankInBlank = []
+# for key in all_words:
+# 	for key2 in all_words:
+# 		if len(all_words[key]) < len(all_words[key2]):
+# 			if key in key2:
+# 				if not sublistExists(all_words[key2],all_words[key]):
+# 					print "You put the %s in %s!" % (key, key2)
+# 					if (key,key2) not in blankInBlank:
+# 						blankInBlank.append((key,key2))
+# 			if sublistExists(all_words[key2],all_words[key]):
+# 				if key not in key2:
+# 					print "You put the %s in %s!" % (key, key2)
+# 					if (key,key2) not in blankInBlank:
+# 						blankInBlank.append((key,key2))
 
