@@ -2,7 +2,7 @@ import pronunciation_parser
 
 all_words = pronunciation_parser.create_dict(pronunciation_parser.open_dictionary())
 
-pun_on_this = "capable".upper()
+pun_on_this = "table".upper()
 print all_words[pun_on_this]
 
 def match_sounds(input_word,compare_word):
@@ -81,15 +81,29 @@ def word_in_other_words(input_word,compare_word):
 
 #def compare_length(input_word,compare_word):
 
+homophones = []
+contains_component_sounds = []
+blank_in_blank_puns = []
+
 for key in all_words:
 	if match_sounds(pun_on_this,key):
-		print key
+		homophones.append(key)
 	#print "More than 1/2 matching sounds in word:"
 	if different_lengths(pun_on_this,key):
-		print key
+		contains_component_sounds.append(key)
 	blankInBlank = word_in_other_words(pun_on_this,key)
 	if blankInBlank:
-		print "You put the %s in %s!" % (blankInBlank[0].lower(), blankInBlank[1].lower())
+		blank_in_blank_puns.append(key)
+
+print "Pure Homophones of %s:"
+for i in homophones:
+	print i.lower()
+print "These words contain all the component sounds:"
+for i in contains_component_sounds:
+	print i.lower()
+print "Here are some puns of the form 'You put the ___ in ___!'"
+for i in blank_in_blank_puns:
+	print "You put the %s in %s!" % (i.lower(), pun_on_this.lower())
 
 
 
