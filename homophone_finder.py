@@ -1,8 +1,10 @@
 import pronunciation_parser
+from pprint import pprint
 
 all_words = pronunciation_parser.create_dict(pronunciation_parser.open_dictionary())
+thesaurus = pronunciation_parser.create_thesaurus(pronunciation_parser.open_thesaurus())
 
-pun_on_this = "table".upper()
+pun_on_this = "come".upper()
 print all_words[pun_on_this]
 
 def match_sounds(input_word,compare_word):
@@ -58,8 +60,7 @@ def word_in_other_words(input_word,compare_word):
 		return sounds
 	elif isShortInLongLetters(letters[0], letters[1]) and not isShortInLongSounds(all_words[letters[0]], all_words[letters[1]]):
 		return letters
-	else:
-		return False
+	return False
 
 # def sublistExists(shorterList, longerList):
 #     return ''.join(map(str, shorterList)) in ''.join(map(str, longerList))
@@ -93,7 +94,7 @@ for key in all_words:
 		contains_component_sounds.append(key)
 	blankInBlank = word_in_other_words(pun_on_this,key)
 	if blankInBlank:
-		blank_in_blank_puns.append(key)
+		blank_in_blank_puns.append(blankInBlank)
 
 print "Pure Homophones of %s:"
 for i in homophones:
@@ -103,9 +104,10 @@ for i in contains_component_sounds:
 	print i.lower()
 print "Here are some puns of the form 'You put the ___ in ___!'"
 for i in blank_in_blank_puns:
-	print "You put the %s in %s!" % (i.lower(), pun_on_this.lower())
+	print "You put the %s in %s!" % (i[0].lower(), i[1].lower())
 
 
+pprint(thesaurus)
 
 
 #Here you should also take into account letter sequence. If letter sequence matches AND sound DOES NOT match, then put it in. Could be funnier
