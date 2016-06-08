@@ -2,7 +2,6 @@ import json
 from pprint import pprint
 import xml.etree.ElementTree
 
-
 # class SemanticWord(object):
 # 	def __init__(word, definition, defnition_graph, pronunciation)
 
@@ -45,7 +44,21 @@ def create_thesaurus(thesaurus):
 			big_thesaurus[current_word] = row_parts[1:]	
 	return big_thesaurus
 
+def open_osx_dictionary():
+	everyword = []
+	current_word = ''
+	quotechar = "'"
+	with open('../resources_for_puntenshawl/osxdictv2output.txt') as f:
+		for line in f.readlines():
+			if line[0] not in quotechar:
+				pass
+			if line[0].isalpha():
+				lineparts = line.strip().split('|')
+				print lineparts
+	return everyword
 
+
+print open_osx_dictionary()
 #everyword = create_dict(open_dictionary())
 #print everyword['POTATO']
 # for key in everyword:
@@ -55,18 +68,7 @@ def create_thesaurus(thesaurus):
 
 #lol reverse subject matter puns are hearing a sound in a word and usng that sound to find another word on the same subject and boom a pun.
 
-#WTF KIND OF A DICTIONARY DOESN'T HAVE THE WORD POTATO???????
-def open_json_dictionary():
-	definitions = {}
-	with open('dictionary/dictionary.json') as json_data:
-		definitions = json.load(json_data)
-		json_data.close()
-	return definitions
 
-
-def open_xml_dictionary():
-	wiktionary = xml.etree.ElementTree.parse('/Volumes/Photodrive 6000/Wikipedia/wikidatawiki-20160501-pages-articles-multistream.xml').getroot()
-	return wiktionary
 
 #pprint(open_xml_dictionary())
 

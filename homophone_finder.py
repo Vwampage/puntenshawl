@@ -107,7 +107,8 @@ for i in blank_in_blank_puns:
 	print "You put the %s in %s!" % (i[0].lower(), i[1].lower())
 
 
-pprint(thesaurus)
+
+#pprint(thesaurus)
 
 
 #Here you should also take into account letter sequence. If letter sequence matches AND sound DOES NOT match, then put it in. Could be funnier
