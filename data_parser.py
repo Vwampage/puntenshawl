@@ -1,6 +1,7 @@
 import json
 from pprint import pprint
-import xml.etree.ElementTree
+from nltk.corpus import wordnet as wn
+
 
 # class SemanticWord(object):
 # 	def __init__(word, definition, defnition_graph, pronunciation)
@@ -18,7 +19,8 @@ def create_dict(dictionary):
 	words = {}
 	for row in dictionary:
 		word_tho = row.strip().split(" ")
-		words[word_tho[0]] = word_tho[2:]
+		if word_tho[0] != ';;;':
+			words[word_tho[0]] = word_tho[2:]
 	return words
 
 def open_thesaurus():
@@ -57,8 +59,15 @@ def open_osx_dictionary():
 				print lineparts
 	return everyword
 
+def return_wordnet_definitions(word):
+	definitions = []
+	for synset in wn.synsets(word):
+		if word in str(synset):
+			#print synset.definition()
+			definitions.append(synset.definition())
+	return definitions
 
-print open_osx_dictionary()
+#print open_osx_dictionary()
 #everyword = create_dict(open_dictionary())
 #print everyword['POTATO']
 # for key in everyword:

@@ -1,10 +1,16 @@
-import pronunciation_parser
+import data_parser
+from argparse import ArgumentParser
 from pprint import pprint
 
-all_words = pronunciation_parser.create_dict(pronunciation_parser.open_dictionary())
-thesaurus = pronunciation_parser.create_thesaurus(pronunciation_parser.open_thesaurus())
+all_words = data_parser.create_dict(data_parser.open_dictionary())
+thesaurus = data_parser.create_thesaurus(data_parser.open_thesaurus())
+#wordnet = 
 
-pun_on_this = "come".upper()
+parser = ArgumentParser('Create a swarm of instances using Zerg')
+parser.add_argument('-w', '--single-word', default='puppy', help='the word you would like puns on')
+args = parser.parse_args()
+
+pun_on_this = args.single_word.upper()
 print all_words[pun_on_this]
 
 def match_sounds(input_word,compare_word):
@@ -105,8 +111,8 @@ for i in contains_component_sounds:
 print "Here are some puns of the form 'You put the ___ in ___!'"
 for i in blank_in_blank_puns:
 	print "You put the %s in %s!" % (i[0].lower(), i[1].lower())
-
-
+print thesaurus[pun_on_this.lower()]
+print data_parser.return_wordnet_definitions(pun_on_this.lower())
 
 #pprint(thesaurus)
 
