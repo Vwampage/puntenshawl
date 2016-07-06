@@ -9,12 +9,16 @@ with open('/usr/share/dict/words') as words:
 #print all_words
 
 for word in all_words:
-	print word
+	#print word
 	for synset in wn.synsets(word.lower()):
 		#print synset
 		if word.lower() in str(synset):
 			print synset.definition()
 
+
+for synset in wn.synsets('greeting'):	
+	if 'greeting' in str(synset):
+		print synset.definition()
 
 # dog = wn.synset('dog.n.01')
 
