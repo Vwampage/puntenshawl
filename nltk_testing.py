@@ -1,13 +1,23 @@
+import sys
 from nltk.corpus import wordnet as wn
 
-for synset in wn.synsets('dog'):
-	print synset
-	if 'dog' in str(synset):
-		print synset.definition()
+all_words = []
+with open('/usr/share/dict/words') as words:
+	for line in words.readlines():
+		all_words.append(line)
+
+#print all_words
+
+for word in all_words:
+	print word
+	for synset in wn.synsets(word.lower()):
+		#print synset
+		if word.lower() in str(synset):
+			print synset.definition()
 
 
-dog = wn.synset('dog.n.01')
+# dog = wn.synset('dog.n.01')
 
-print dog.hypernyms()
+# print dog.hypernyms()
 
-print wn('dog')
+# print wn('dog')

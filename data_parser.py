@@ -77,7 +77,8 @@ def return_wordnet_definitions(word):
 
 #lol reverse subject matter puns are hearing a sound in a word and usng that sound to find another word on the same subject and boom a pun.
 
-
+class WordObject(object):
+	def __init__(self, pronunciation, defintion, synonyms)
 
 #pprint(open_xml_dictionary())
 
