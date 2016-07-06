@@ -28,6 +28,7 @@ def match_sounds(input_word,compare_word):
 		return False
 
 #This evaluates if all the sounds are present, aka for 'you're' it can make things of the form "You put the you're in mercurial"
+#Actually this one is pretty mediocre. I don't think it's really a good plan to keep using it for now.
 def different_lengths(input_word,compare_word):
 	matching_sounds = 0
 	for sound in all_words[input_word]: 
@@ -89,15 +90,15 @@ def word_in_other_words(input_word,compare_word):
 #def compare_length(input_word,compare_word):
 
 homophones = []
-contains_component_sounds = []
+# contains_component_sounds = []
 blank_in_blank_puns = []
 
 for key in all_words:
 	if match_sounds(pun_on_this,key):
 		homophones.append(key)
 	#print "More than 1/2 matching sounds in word:"
-	if different_lengths(pun_on_this,key):
-		contains_component_sounds.append(key)
+	# if different_lengths(pun_on_this,key):
+	# 	contains_component_sounds.append(key)
 	blankInBlank = word_in_other_words(pun_on_this,key)
 	if blankInBlank:
 		blank_in_blank_puns.append(blankInBlank)
@@ -105,9 +106,9 @@ for key in all_words:
 print "Pure Homophones of %s:"
 for i in homophones:
 	print i.lower()
-print "These words contain all the component sounds:"
-for i in contains_component_sounds:
-	print i.lower()
+# print "These words contain all the component sounds:"
+# for i in contains_component_sounds:
+# 	print i.lower()
 print "Here are some puns of the form 'You put the ___ in ___!'"
 for i in blank_in_blank_puns:
 	print "You put the %s in %s!" % (i[0].lower(), i[1].lower())

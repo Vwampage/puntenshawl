@@ -83,3 +83,10 @@ def return_wordnet_definitions(word):
 
 #pprint(open_json_dictionary()["YIELD"])
 
+
+
+#for every word in dictionary
+#if it's in the Big Word List
+
+
+
