@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
 import json
 from pprint import pprint
 from nltk.corpus import wordnet as wn

@@ -6,7 +6,7 @@ all_words = data_parser.create_dict(data_parser.open_dictionary())
 thesaurus = data_parser.create_thesaurus(data_parser.open_thesaurus())
 #wordnet = 
 
-parser = ArgumentParser('Create a swarm of instances using Zerg')
+parser = ArgumentParser('Add arguments to find puns!')
 parser.add_argument('-w', '--single-word', default='puppy', help='the word you would like puns on')
 args = parser.parse_args()
 
