@@ -30,7 +30,7 @@ def subject_comparison(word,subject):
 	for definitionSubject in synsetsSubject:
 		for definitionWord in synsetsWord:
 			similarity = definitionSubject.path_similarity(definitionWord)
-			if similarity > 0.125:
+			if similarity > 0.3:
 				print word, subject
 				# print definitionSubject.definition()
 				# print definitionWord.definition()
@@ -64,6 +64,7 @@ for index, i in enumerate(text_list):
 	try:
 		synonyms[(index, i.strip())] = thesaurus[i.strip()]
 	except:
+		synonyms[(index, i)] = [i]
 		print "Key error %s" % i
 
 print synonyms
@@ -71,6 +72,10 @@ print synonyms
 
 for i in sample_text.split(' '):
 	subject_comparison(i, args.subject)
+
+for key in synonyms:
+	for i in synonyms[key]:
+		subject_comparison(i, args.subject)
 #print all_words
 
 # for word in all_words:
