@@ -1,4 +1,5 @@
 import sys
+import data_parser
 from nltk.corpus import wordnet as wn
 from argparse import ArgumentParser
 
@@ -6,34 +7,35 @@ from argparse import ArgumentParser
 parser = ArgumentParser('Add words to compare')
 parser.add_argument('-a', '--first-word', default='puppy', help='The base comparison word')
 parser.add_argument('-b', '--second-word', default='dog', help='The base comparison word')
+parser.add_argument('-s', '--subject', default='alcohol', help='Subject to make puns on.')
 args = parser.parse_args()
 
-
+thesaurus = data_parser.create_thesaurus(data_parser.open_thesaurus())
+#print thesaurus
 print args.first_word
 print args.second_word
 
+def subject_comparison(word,subject):
+	synsetsSubject = []
+	synsetsWord = []
 
-synsetsOne = []
-synsetsTwo = []
+	for synset in wn.synsets(subject):
+		if subject in str(synset):
+			synsetsSubject.append(synset)
 
-for synset in wn.synsets(args.first_word):
-	if args.first_word in str(synset):
-		synsetsOne.append(synset)
+	for synset in wn.synsets(word):
+		if word in str(synset):
+			synsetsWord.append(synset)
 
-for synset in wn.synsets(args.second_word):
-	if args.second_word in str(synset):
-		synsetsTwo.append(synset)
-
-
-for wordOne in synsetsOne:
-	for wordTwo in synsetsTwo:
-		print wordOne, wordTwo
-		print wordOne.definition()
-		print wordTwo.definition()
-		print wordOne.hypernyms(), wordTwo.hypernyms()
-		print wordOne.path_similarity(wordTwo)		
-		print
-		print
+	for definitionSubject in synsetsSubject:
+		for definitionWord in synsetsWord:
+			similarity = definitionSubject.path_similarity(definitionWord)
+			if similarity > 0.125:
+				print word, subject
+				# print definitionSubject.definition()
+				# print definitionWord.definition()
+				# print definitionSubject.hypernyms(), definitionWord.hypernyms()
+				print similarity
 # print wn.synsets('puppy')
 # print wn.synsets('dog')
 
@@ -52,8 +54,23 @@ I went to the mall today and I got to ride a pony. Riding the pony was super fun
 """
 
 
+print sample_text.split(' ')
+text_list = sample_text.split(' ')
 
-print sample_text.decode('UTF-8')
+synonyms = {}
+
+for index, i in enumerate(text_list):
+	print index, i
+	try:
+		synonyms[(index, i.strip())] = thesaurus[i.strip()]
+	except:
+		print "Key error %s" % i
+
+print synonyms
+# print subject_comparison('alcohol','cup')
+
+for i in sample_text.split(' '):
+	subject_comparison(i, args.subject)
 #print all_words
 
 # for word in all_words:
