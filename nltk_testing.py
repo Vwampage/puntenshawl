@@ -30,7 +30,7 @@ def subject_comparison(word,subject):
 	for definitionSubject in synsetsSubject:
 		for definitionWord in synsetsWord:
 			similarity = definitionSubject.path_similarity(definitionWord)
-			if similarity > 0.3:
+			if similarity > 0.125:
 				print word, subject
 				# print definitionSubject.definition()
 				# print definitionWord.definition()
@@ -50,33 +50,59 @@ with open('/usr/share/dict/words') as words:
 
 
 sample_text = """
-I went to the mall today and I got to ride a pony. Riding the pony was super fun and we ran around the enclosure very quickly. Nobody messed with us because nobody messes with a pony.
+I went to the mall today and I got to ride a pony. Riding the pony was super fun and we ran around the enclosure very quickly. Nobody messed with us because nobody messes with a pony. From there I worked on the scoring sheet for Signal Hunt. My goal was to make something that would automatically score all of the bonuses, from have they scored one clue in every category, to if they've scored more than half of a whole category or a region there's some bonus in it for them. It was a lot of fun figuring out how to do conditional logic in a Google Sheet. I've actually never done that before so it was interesting to learn the syntax.
 """
+#########################
+
+#print sample_text.split(' ')
+# text_list = sample_text.split(' ')
+
+# synonyms = {}
+
+# for index, i in enumerate(text_list):
+# 	print index, i
+# 	try:
+# 		synonyms[(index, i.strip())] = thesaurus[i.strip()]
+# 	except:
+# 		synonyms[(index, i)] = [i]
+# 		print "Key error %s" % i
+
+# print synonyms
+# # print subject_comparison('alcohol','cup')
+
+# for i in sample_text.split(' '):
+# 	subject_comparison(i, args.subject)
+
+# for key in synonyms:
+# 	for i in synonyms[key]:
+# 		subject_comparison(i, args.subject)
+###############################
 
 
-print sample_text.split(' ')
-text_list = sample_text.split(' ')
+# for i in wn.synsets(args.subject):
+# 	while len(i.hyponyms()) > 0:
+# 		print i.hyponyms()
+# 		i
 
-synonyms = {}
+hyponyms = wn.synsets(args.subject)
+print hyponyms
+for i in hyponyms:
+	print "CURRENT HYPONYMS"
+	print i.hyponyms
+	if i not in hyponyms:
+		hyponyms.append(i)
+	for j in i.hyponyms():
+		if j not in hyponyms:
+			hyponyms.append(j)
+print hyponyms
 
-for index, i in enumerate(text_list):
-	print index, i
-	try:
-		synonyms[(index, i.strip())] = thesaurus[i.strip()]
-	except:
-		synonyms[(index, i)] = [i]
-		print "Key error %s" % i
+# current_level = wn.synsets(args.subject)
 
-print synonyms
-# print subject_comparison('alcohol','cup')
-
-for i in sample_text.split(' '):
-	subject_comparison(i, args.subject)
-
-for key in synonyms:
-	for i in synonyms[key]:
-		subject_comparison(i, args.subject)
-#print all_words
+# for i in current_level:
+# 	print i.hypernyms()
+# 	for j in i.hypernyms():
+# 		print j.hyponyms()
+	
 
 # for word in all_words:
 # 	strip_word = word.strip()
