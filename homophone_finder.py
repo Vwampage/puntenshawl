@@ -80,19 +80,43 @@ def chop_up_sound_sequences(input_word):
 
 def beginning_ending_sounds_match(input_word, compare_word):
 	matches = []
+	# matches['beginnings'] = []
+	# matches['endings'] = []
 	sound_sorted = whichIsShorterSounds(input_word,compare_word)
 	comparison_sounds = chop_up_sound_sequences(sound_sorted[0])
-
-	for sound_list in comparison_sounds[0]:
-		if isShortInLongSounds(sound_list,all_words[sound_sorted[1]][-len(sound_list):]):
-			add_word_string = compare_word,' + ', input_word
-			matches.append(add_word_string)
-			break
-	for sound_list in comparison_sounds[1]:
-		if isShortInLongSounds(sound_list,all_words[sound_sorted[1]][:len(sound_list)]):
-			add_word_string = input_word,' + ',compare_word
-			matches.append(add_word_string)
-			break
+	shorter_word = sound_sorted[0]
+	longer_word = sound_sorted[1]
+	for i in xrange(1,len(all_words[shorter_word])+1):
+		shorter_word_sounds = {}
+		shorter_word_sounds['beginning_sounds'] = all_words[shorter_word][:i]
+		shorter_word_sounds['ending_sounds'] = all_words[shorter_word][-i:]
+		longer_word_sounds = {}
+		longer_word_sounds['beginning_sounds'] = all_words[longer_word][:i]
+		longer_word_sounds['ending_sounds'] = all_words[longer_word][-i:]
+		if isShortInLongSounds(shorter_word_sounds['beginning_sounds'],longer_word_sounds['ending_sounds']):
+			add_word_string = longer_word + ' + ' + shorter_word
+			matches.append((add_word_string, shorter_word_sounds['beginning_sounds']))
+		if isShortInLongSounds(shorter_word_sounds['ending_sounds'],longer_word_sounds['beginning_sounds']):
+			add_word_string = shorter_word + ' + ' + longer_word
+			matches.append((add_word_string, shorter_word_sounds['ending_sounds']))
+	# for sound_list in comparison_sounds[0]:
+	# 	if isShortInLongSounds(sound_list,all_words[longer_word][-len(sound_list):]):
+	# 		# if len(sound_list) > 1:
+	# 			# print "ONE SET", sound_list == all_words[longer_word][-len(sound_list):]
+	# 			# print sound_list
+	# 			# print all_words[longer_word][-len(sound_list):]
+	# 		add_word_string = longer_word + ' + ' + shorter_word
+	# 		matches.append(add_word_string)
+	# 		break
+	# for sound_list in comparison_sounds[1]:
+	# 	if isShortInLongSounds(sound_list,all_words[longer_word][:len(sound_list)]):
+	# 		# if len(sound_list) > 1:
+	# 			# print "ONE SET", sound_list == all_words[longer_word][:len(sound_list)]
+	# 			# print sound_list
+	# 			# print all_words[longer_word][:len(sound_list)]
+	# 		add_word_string = shorter_word + ' + ' + longer_word
+	# 		matches.append(add_word_string)
+	# 		break
 	return matches
 
 # def sublistExists(shorterList, longerList):
@@ -118,6 +142,7 @@ def beginning_ending_sounds_match(input_word, compare_word):
 homophones = []
 # contains_component_sounds = []
 blank_in_blank_puns = []
+additive_words = []
 
 for key in all_words:
 	if match_sounds(pun_on_this,key):
@@ -128,6 +153,9 @@ for key in all_words:
 	blankInBlank = word_in_other_words(pun_on_this,key)
 	if blankInBlank:
 		blank_in_blank_puns.append(blankInBlank)
+	for i in beginning_ending_sounds_match(pun_on_this,key):
+		if len(i) > 0:
+			additive_words.append(i)
 
 print "Pure Homophones of %s:"
 for i in homophones:
@@ -138,10 +166,21 @@ for i in homophones:
 print "Here are some puns of the form 'You put the ___ in ___!'"
 for i in blank_in_blank_puns:
 	print "You put the %s in %s!" % (i[0].lower(), i[1].lower())
+for i in additive_words:
+	print i
+	# print i['beginnings']
+	# print i['endings']
 print thesaurus[pun_on_this.lower()]
-print data_parser.return_wordnet_definitions(pun_on_this.lower())
+# print data_parser.return_wordnet_definitions(pun_on_this.lower())
 
 print chop_up_sound_sequences(pun_on_this)
+print all_words['LEMMIE']
+print all_words['CANDLE']
+print beginning_ending_sounds_match('LEMMIE', 'CANDLE')
+# for key in all_words:
+# 	for i in beginning_ending_sounds_match(pun_on_this,key):
+# 		if len(i) > 0:
+# 			print i
 
 #pprint(thesaurus)
 
