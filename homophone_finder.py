@@ -69,6 +69,32 @@ def word_in_other_words(input_word,compare_word):
 		return letters
 	return False
 
+def chop_up_sound_sequences(input_word):
+	beginning_sounds = []
+	ending_sounds = []
+	word_sounds = all_words[input_word]
+	for i in xrange(1,len(word_sounds)+1):
+		beginning_sounds.append(word_sounds[:i])
+		ending_sounds.append(word_sounds[-i:])
+	return (beginning_sounds, ending_sounds)
+
+def beginning_ending_sounds_match(input_word, compare_word):
+	matches = []
+	sound_sorted = whichIsShorterSounds(input_word,compare_word)
+	comparison_sounds = chop_up_sound_sequences(sound_sorted[0])
+
+	for sound_list in comparison_sounds[0]:
+		if isShortInLongSounds(sound_list,all_words[sound_sorted[1]][-len(sound_list):]):
+			add_word_string = compare_word,' + ', input_word
+			matches.append(add_word_string)
+			break
+	for sound_list in comparison_sounds[1]:
+		if isShortInLongSounds(sound_list,all_words[sound_sorted[1]][:len(sound_list)]):
+			add_word_string = input_word,' + ',compare_word
+			matches.append(add_word_string)
+			break
+	return matches
+
 # def sublistExists(shorterList, longerList):
 #     return ''.join(map(str, shorterList)) in ''.join(map(str, longerList))
 
@@ -114,6 +140,8 @@ for i in blank_in_blank_puns:
 	print "You put the %s in %s!" % (i[0].lower(), i[1].lower())
 print thesaurus[pun_on_this.lower()]
 print data_parser.return_wordnet_definitions(pun_on_this.lower())
+
+print chop_up_sound_sequences(pun_on_this)
 
 #pprint(thesaurus)
 

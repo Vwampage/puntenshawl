@@ -50,7 +50,7 @@ with open('/usr/share/dict/words') as words:
 
 
 sample_text = """
-I went to the mall today and I got to ride a pony. Riding the pony was super fun and we ran around the enclosure very quickly. Nobody messed with us because nobody messes with a pony. From there I worked on the scoring sheet for Signal Hunt. My goal was to make something that would automatically score all of the bonuses, from have they scored one clue in every category, to if they've scored more than half of a whole category or a region there's some bonus in it for them. It was a lot of fun figuring out how to do conditional logic in a Google Sheet. I've actually never done that before so it was interesting to learn the syntax.
+Now the country is left to consider what the lasting consequences of the uprising will be. While Mr. Erdogan has fended off a coup, the most urgent question is this: Has he emerged even more powerful, or is he now a weakened leader who must accommodate his opponents? I went to the mall today and I got to ride a pony. Riding the pony was super fun and we ran around the enclosure very quickly. Nobody messed with us because nobody messes with a pony. From there I worked on the scoring sheet for Signal Hunt. My goal was to make something that would automatically score all of the bonuses, from have they scored one clue in every category, to if they've scored more than half of a whole category or a region there's some bonus in it for them. It was a lot of fun figuring out how to do conditional logic in a Google Sheet. I've actually never done that before so it was interesting to learn the syntax.
 """
 #########################
 
@@ -87,7 +87,6 @@ I went to the mall today and I got to ride a pony. Riding the pony was super fun
 hyponyms = wn.synsets(args.subject)
 print hyponyms
 for i in hyponyms:
-	print "CURRENT HYPONYMS"
 	print i.hyponyms
 	if i not in hyponyms:
 		hyponyms.append(i)
@@ -95,6 +94,12 @@ for i in hyponyms:
 		if j not in hyponyms:
 			hyponyms.append(j)
 print hyponyms
+
+for i in sample_text.split():
+	print i
+	for j in wn.synsets(i):
+		if j in hyponyms:
+			print "%s can be substituted for %s!" % (j, i)
 
 # current_level = wn.synsets(args.subject)
 
