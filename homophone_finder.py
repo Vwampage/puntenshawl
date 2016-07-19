@@ -1,6 +1,8 @@
 import data_parser
 from argparse import ArgumentParser
 from pprint import pprint
+from nltk.corpus import wordnet as wn
+
 
 all_words = data_parser.create_dict(data_parser.open_dictionary())
 thesaurus = data_parser.create_thesaurus(data_parser.open_thesaurus())
@@ -107,8 +109,28 @@ def doBeginningEndingSoundsMatch(input_word, compare_word):
 					matches.append((short_plus_long_str, shorter_word_sounds['ending_sounds'], i, len(all_words[shorter_word])))
 	return matches
 
+def findASubject(subject):
+	hyponyms = wn.synsets(args.subject)
+	# print hyponyms
+	for i in hyponyms:
+		# print i.hyponyms
+		if i not in hyponyms:
+			hyponyms.append(i)
+		for j in i.hyponyms():
+			if j not in hyponyms:
+				hyponyms.append(j)
+	return hyponyms
 
+def synsetToWord(synset):
+	return str(synset).split("'")[1].split('.')[0].replace('_',' ').upper()
 
+# This needs to be able to deal with multiple words
+def additiveFromSubject(subject,word):
+	subjects = findASubject(subject)
+	matches = []
+	for i in subjects:
+		matches.append(doBeginningEndingSoundsMatch(word,synsetToWord(i)))
+	return matches
 #Phoneme analog to levenstein distance
 # try turning a sentence into a list of sounds and finding combinations of words that are *close* to those sounds
 #THAT would be super interesting
@@ -153,6 +175,12 @@ print chop_up_sound_sequences(pun_on_this)
 print all_words['LEMMIE']
 print all_words['WRINKLE']
 print doBeginningEndingSoundsMatch('LEMMIE', 'CANDLE')
+
+print additiveFromSubject(pun_on_this, args.subject.upper())
+
+# for i in findASubject(args.subject):
+# 	print synsetToWord(i)
+
 # for key in all_words:
 # 	for i in doBeginningEndingSoundsMatch(pun_on_this,key):
 # 		if len(i) > 0:

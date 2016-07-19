@@ -95,11 +95,20 @@ for i in hyponyms:
 			hyponyms.append(j)
 print hyponyms
 
-for i in sample_text.split():
+for i in hyponyms:
 	print i
-	for j in wn.synsets(i):
-		if j in hyponyms:
-			print "%s can be substituted for %s!" % (j, i)
+	print str(i).split("'")[1].split('.')[0].replace('_',' ')
+
+
+
+
+print str(hyponyms[0]).split("'")[1].split('.')[0].replace('_',' ')
+
+# for i in sample_text.split():
+# 	print i
+# 	for j in wn.synsets(i):
+# 		if j in hyponyms:
+# 			print "%s can be substituted for %s!" % (j, i)
 
 # current_level = wn.synsets(args.subject)
 
