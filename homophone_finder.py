@@ -8,6 +8,7 @@ thesaurus = data_parser.create_thesaurus(data_parser.open_thesaurus())
 
 parser = ArgumentParser('Add arguments to find puns!')
 parser.add_argument('-w', '--single-word', default='puppy', help='the word you would like puns on')
+parser.add_argument('-s', '--subject', default='dog', help='the subject you would like to use')
 args = parser.parse_args()
 
 pun_on_this = args.single_word.upper()
@@ -60,7 +61,7 @@ def isShortInLongSounds(shorterList,longerList):
 	return ''.join(map(str, shorterList)) in ''.join(map(str, longerList))
 
 
-def word_in_other_words(input_word,compare_word):
+def isWordInOtherWords(input_word,compare_word):
 	sounds = whichIsShorterSounds(input_word, compare_word)
 	letters = whichIsShorterLetters(input_word,compare_word)
 	if isShortInLongSounds(all_words[sounds[0]], all_words[sounds[1]]) and not isShortInLongLetters(sounds[0], sounds[1]):
@@ -78,61 +79,36 @@ def chop_up_sound_sequences(input_word):
 		ending_sounds.append(word_sounds[-i:])
 	return (beginning_sounds, ending_sounds)
 
-def beginning_ending_sounds_match(input_word, compare_word):
+def doBeginningEndingSoundsMatch(input_word, compare_word):
 	matches = []
 	# matches['beginnings'] = []
 	# matches['endings'] = []
 	sound_sorted = whichIsShorterSounds(input_word,compare_word)
-	comparison_sounds = chop_up_sound_sequences(sound_sorted[0])
+	#comparison_sounds = chop_up_sound_sequences(sound_sorted[0])
 	shorter_word = sound_sorted[0]
 	longer_word = sound_sorted[1]
+	max_length = len(all_words[shorter_word])
 	for i in xrange(1,len(all_words[shorter_word])+1):
-		shorter_word_sounds = {}
-		shorter_word_sounds['beginning_sounds'] = all_words[shorter_word][:i]
-		shorter_word_sounds['ending_sounds'] = all_words[shorter_word][-i:]
-		longer_word_sounds = {}
-		longer_word_sounds['beginning_sounds'] = all_words[longer_word][:i]
-		longer_word_sounds['ending_sounds'] = all_words[longer_word][-i:]
-		if isShortInLongSounds(shorter_word_sounds['beginning_sounds'],longer_word_sounds['ending_sounds']):
-			add_word_string = longer_word + ' + ' + shorter_word
-			matches.append((add_word_string, shorter_word_sounds['beginning_sounds']))
-		if isShortInLongSounds(shorter_word_sounds['ending_sounds'],longer_word_sounds['beginning_sounds']):
-			add_word_string = shorter_word + ' + ' + longer_word
-			matches.append((add_word_string, shorter_word_sounds['ending_sounds']))
-	# for sound_list in comparison_sounds[0]:
-	# 	if isShortInLongSounds(sound_list,all_words[longer_word][-len(sound_list):]):
-	# 		# if len(sound_list) > 1:
-	# 			# print "ONE SET", sound_list == all_words[longer_word][-len(sound_list):]
-	# 			# print sound_list
-	# 			# print all_words[longer_word][-len(sound_list):]
-	# 		add_word_string = longer_word + ' + ' + shorter_word
-	# 		matches.append(add_word_string)
-	# 		break
-	# for sound_list in comparison_sounds[1]:
-	# 	if isShortInLongSounds(sound_list,all_words[longer_word][:len(sound_list)]):
-	# 		# if len(sound_list) > 1:
-	# 			# print "ONE SET", sound_list == all_words[longer_word][:len(sound_list)]
-	# 			# print sound_list
-	# 			# print all_words[longer_word][:len(sound_list)]
-	# 		add_word_string = shorter_word + ' + ' + longer_word
-	# 		matches.append(add_word_string)
-	# 		break
+		shorter_word_sounds = {'beginning_sounds': all_words[shorter_word][:i], 'ending_sounds': all_words[shorter_word][-i:]}
+		# shorter_word_sounds['beginning_sounds'] = all_words[shorter_word][:i]
+		# shorter_word_sounds['ending_sounds'] = all_words[shorter_word][-i:]
+		longer_word_sounds = {'beginning_sounds': all_words[longer_word][:i], 'ending_sounds': all_words[longer_word][-i:]}
+		# longer_word_sounds['beginning_sounds'] = all_words[longer_word][:i]
+		# longer_word_sounds['ending_sounds'] = all_words[longer_word][-i:]
+		long_plus_short_str = longer_word + ' + ' + shorter_word
+		short_plus_long_str = shorter_word + ' + ' + longer_word
+		if i > len(all_words[shorter_word]) * 0.34:
+			if (long_plus_short_str, shorter_word_sounds['beginning_sounds']) not in matches:
+				if isShortInLongSounds(shorter_word_sounds['beginning_sounds'],longer_word_sounds['ending_sounds']):
+					matches.append((long_plus_short_str, shorter_word_sounds['beginning_sounds'], i, len(all_words[shorter_word])))
+					# and i > len(all_words[shorter_word])*0.25
+			if (short_plus_long_str, shorter_word_sounds['beginning_sounds']) not in matches:
+				if isShortInLongSounds(shorter_word_sounds['ending_sounds'],longer_word_sounds['beginning_sounds']):
+					matches.append((short_plus_long_str, shorter_word_sounds['ending_sounds'], i, len(all_words[shorter_word])))
 	return matches
 
-# def sublistExists(shorterList, longerList):
-#     return ''.join(map(str, shorterList)) in ''.join(map(str, longerList))
 
 
-
-# def partial_sequence_comparison(input_word,compare_word):
-#		Make tuples/ a dict for every sound in the pun-on-this word?
-#		for every sound in the pun-on-this word
-# 	If the compare-word contains a sound from pun-on-this figure out where that sound exists in the word
-#		figure out how many more sounds are after the sound that matches
-#		Figure out how much of that sequence matches
-#		Add to the relevant dict for whatever matches?
-#		
-		
 #Phoneme analog to levenstein distance
 # try turning a sentence into a list of sounds and finding combinations of words that are *close* to those sounds
 #THAT would be super interesting
@@ -150,10 +126,10 @@ for key in all_words:
 	#print "More than 1/2 matching sounds in word:"
 	# if different_lengths(pun_on_this,key):
 	# 	contains_component_sounds.append(key)
-	blankInBlank = word_in_other_words(pun_on_this,key)
+	blankInBlank = isWordInOtherWords(pun_on_this,key)
 	if blankInBlank:
 		blank_in_blank_puns.append(blankInBlank)
-	for i in beginning_ending_sounds_match(pun_on_this,key):
+	for i in doBeginningEndingSoundsMatch(pun_on_this,key):
 		if len(i) > 0:
 			additive_words.append(i)
 
@@ -175,10 +151,10 @@ print thesaurus[pun_on_this.lower()]
 
 print chop_up_sound_sequences(pun_on_this)
 print all_words['LEMMIE']
-print all_words['CANDLE']
-print beginning_ending_sounds_match('LEMMIE', 'CANDLE')
+print all_words['WRINKLE']
+print doBeginningEndingSoundsMatch('LEMMIE', 'CANDLE')
 # for key in all_words:
-# 	for i in beginning_ending_sounds_match(pun_on_this,key):
+# 	for i in doBeginningEndingSoundsMatch(pun_on_this,key):
 # 		if len(i) > 0:
 # 			print i
 
