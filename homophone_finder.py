@@ -16,6 +16,27 @@ args = parser.parse_args()
 pun_on_this = args.single_word.upper()
 print all_words[pun_on_this]
 
+#takes in a word or sequence of words and returns a list of sequences of sounds
+#maybe this should be a dictionary of words with a position indicator?
+#also should deal with apostrophes
+#should deal with alternate pronunciations
+def parse_sounds(string_of_words):
+	words_to_process = string_of_words.upper().strip().split(' ')
+	dict_of_words = {}
+	for i in words_to_process:
+		if i in all_words.keys()
+			dict_of_words[i] = [].append(all_words[i])
+			if i + '(1)' in all_words.keys():
+				dict_of_words[i] = [].append(all_words[i + '(1)'])
+				if i + '(2)' in all_words.keys():
+					dict_of_words[i] = [].append(all_words[i + '(2)'])
+					if i + '(3)' in all_words.keys():
+						dict_of_words[i] = [].append(all_words[i + '(3)'])
+
+
+
+
+
 def match_sounds(input_word,compare_word):
 	if len(all_words[input_word]) == len(all_words[compare_word]):
 		sound_matches = 0
@@ -81,6 +102,13 @@ def chop_up_sound_sequences(input_word):
 		ending_sounds.append(word_sounds[-i:])
 	return (beginning_sounds, ending_sounds)
 
+#Another form of this: if most of one of the words exists within another word
+#then definitely print a match. "C OO" in uncouth or whatnot.
+#This would be very good for punning opportunities with just 
+# a little bit of "these are similar enough" logic
+
+
+
 def doBeginningEndingSoundsMatch(input_word, compare_word):
 	matches = []
 	# matches['beginnings'] = []
@@ -123,6 +151,8 @@ def findASubject(subject):
 
 def synsetToWord(synset):
 	return str(synset).split("'")[1].split('.')[0].replace('_',' ').upper()
+
+
 
 # This needs to be able to deal with multiple words
 def additiveFromSubject(subject,word):
@@ -176,7 +206,12 @@ print all_words['LEMMIE']
 print all_words['WRINKLE']
 print doBeginningEndingSoundsMatch('LEMMIE', 'CANDLE')
 
-print additiveFromSubject(pun_on_this, args.subject.upper())
+# print additiveFromSubject(pun_on_this, args.subject.upper())
+
+#OK So here is the subject section
+#Lets try looking at a sentence and finding the
+#most common subject already in it!
+#That could be pretty cool.
 
 # for i in findASubject(args.subject):
 # 	print synsetToWord(i)
