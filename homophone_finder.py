@@ -24,7 +24,7 @@ def parse_sounds(string_of_words):
 	words_to_process = string_of_words.upper().strip().split(' ')
 	dict_of_words = {}
 	for i in words_to_process:
-		if i in all_words.keys()
+		if i in all_words.keys():
 			dict_of_words[i] = [].append(all_words[i])
 			if i + '(1)' in all_words.keys():
 				dict_of_words[i] = [].append(all_words[i + '(1)'])
@@ -156,9 +156,9 @@ def synsetToWord(synset):
 
 # This needs to be able to deal with multiple words
 def additiveFromSubject(subject,word):
-	subjects = findASubject(subject)
+	subject_words = findASubject(subject)
 	matches = []
-	for i in subjects:
+	for i in subject_words:
 		matches.append(doBeginningEndingSoundsMatch(word,synsetToWord(i)))
 	return matches
 #Phoneme analog to levenstein distance
@@ -166,7 +166,10 @@ def additiveFromSubject(subject,word):
 #THAT would be super interesting
 
 #def compare_length(input_word,compare_word):
-
+word_puns = {}
+word_puns['homophones'] = []
+word_puns['blank_in_blank'] = []
+word_puns['additive_words'] = []
 homophones = []
 # contains_component_sounds = []
 blank_in_blank_puns = []
@@ -175,15 +178,18 @@ additive_words = []
 for key in all_words:
 	if match_sounds(pun_on_this,key):
 		homophones.append(key)
+		word_puns['homophones'].append(key)
 	#print "More than 1/2 matching sounds in word:"
 	# if different_lengths(pun_on_this,key):
 	# 	contains_component_sounds.append(key)
 	blankInBlank = isWordInOtherWords(pun_on_this,key)
 	if blankInBlank:
 		blank_in_blank_puns.append(blankInBlank)
+		word_puns['blank_in_blank'].append(blankInBlank)
 	for i in doBeginningEndingSoundsMatch(pun_on_this,key):
 		if len(i) > 0:
 			additive_words.append(i)
+			word_puns['additive_words'].append(i)
 
 print "Pure Homophones of %s:"
 for i in homophones:
@@ -196,15 +202,18 @@ for i in blank_in_blank_puns:
 	print "You put the %s in %s!" % (i[0].lower(), i[1].lower())
 for i in additive_words:
 	print i
+
+print word_puns
+
 	# print i['beginnings']
 	# print i['endings']
-print thesaurus[pun_on_this.lower()]
+#print thesaurus[pun_on_this.lower()]
 # print data_parser.return_wordnet_definitions(pun_on_this.lower())
 
-print chop_up_sound_sequences(pun_on_this)
-print all_words['LEMMIE']
-print all_words['WRINKLE']
-print doBeginningEndingSoundsMatch('LEMMIE', 'CANDLE')
+# print chop_up_sound_sequences(pun_on_this)
+# print all_words['LEMMIE']
+# print all_words['WRINKLE']
+# print doBeginningEndingSoundsMatch('LEMMIE', 'CANDLE')
 
 # print additiveFromSubject(pun_on_this, args.subject.upper())
 
