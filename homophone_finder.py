@@ -3,7 +3,6 @@ from argparse import ArgumentParser
 from pprint import pprint
 from nltk.corpus import wordnet as wn
 
-
 all_words = data_parser.create_dict(data_parser.open_dictionary())
 thesaurus = data_parser.create_thesaurus(data_parser.open_thesaurus())
 #wordnet = 
@@ -152,7 +151,11 @@ def findASubject(subject):
 def synsetToWord(synset):
 	return str(synset).split("'")[1].split('.')[0].replace('_',' ').upper()
 
-
+#Split a word into every possible sequence of sounds
+#Compare every sound sequence to every sound sequence in other words
+#Compare words that have various amounts of combinations and various amounts of matching
+#??????
+#profit
 
 # This needs to be able to deal with multiple words
 def additiveFromSubject(subject,word):
@@ -162,7 +165,9 @@ def additiveFromSubject(subject,word):
 		#This deals with multiple words for now.
 		if synsetToWord(i) in all_words.keys():
 			#need a length thing in beginning and ending sounds matching	
-			matches.append(doBeginningEndingSoundsMatch(word,synsetToWord(i)))
+			for i in doBeginningEndingSoundsMatch(pun_on_this,key):
+				if len(i) > 0:
+					matches.append(doBeginningEndingSoundsMatch(word,synsetToWord(i)))
 	return matches
 #Phoneme analog to levenstein distance
 # try turning a sentence into a list of sounds and finding combinations of words that are *close* to those sounds
@@ -212,6 +217,8 @@ for i in additive_words:
 	print i
 
 print word_puns
+
+
 
 	# print i['beginnings']
 	# print i['endings']
