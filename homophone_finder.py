@@ -159,7 +159,10 @@ def additiveFromSubject(subject,word):
 	subject_words = findASubject(subject)
 	matches = []
 	for i in subject_words:
-		matches.append(doBeginningEndingSoundsMatch(word,synsetToWord(i)))
+		#This deals with multiple words for now.
+		if synsetToWord(i) in all_words.keys():
+			#need a length thing in beginning and ending sounds matching	
+			matches.append(doBeginningEndingSoundsMatch(word,synsetToWord(i)))
 	return matches
 #Phoneme analog to levenstein distance
 # try turning a sentence into a list of sounds and finding combinations of words that are *close* to those sounds
@@ -170,10 +173,12 @@ word_puns = {}
 word_puns['homophones'] = []
 word_puns['blank_in_blank'] = []
 word_puns['additive_words'] = []
+word_puns['additive_subject'] = []
 homophones = []
 # contains_component_sounds = []
 blank_in_blank_puns = []
 additive_words = []
+additive_subject = []
 
 for key in all_words:
 	if match_sounds(pun_on_this,key):
@@ -190,6 +195,9 @@ for key in all_words:
 		if len(i) > 0:
 			additive_words.append(i)
 			word_puns['additive_words'].append(i)
+
+additive_subject = additiveFromSubject(args.subject.upper(),pun_on_this)
+word_puns['additive_subject'] = additive_subject
 
 print "Pure Homophones of %s:"
 for i in homophones:
