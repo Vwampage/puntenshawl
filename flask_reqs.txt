@@ -9,6 +9,4 @@ itsdangerous==0.24
 python-dateutil==2.5.3
 pytz==2016.6.1
 six==1.10.0
-nltk==3.2.1
-spacy==0.101.0
 wsgiref==0.1.2

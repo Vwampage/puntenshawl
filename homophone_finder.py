@@ -13,7 +13,7 @@ parser.add_argument('-s', '--subject', default='dog', help='the subject you woul
 args = parser.parse_args()
 
 pun_on_this = args.single_word.upper()
-print all_words[pun_on_this]
+#print all_words[pun_on_this]
 
 #takes in a word or sequence of words and returns a list of sequences of sounds
 #maybe this should be a dictionary of words with a position indicator?
@@ -119,18 +119,13 @@ def doBeginningEndingSoundsMatch(input_word, compare_word):
 	max_length = len(all_words[shorter_word])
 	for i in xrange(1,len(all_words[shorter_word])+1):
 		shorter_word_sounds = {'beginning_sounds': all_words[shorter_word][:i], 'ending_sounds': all_words[shorter_word][-i:]}
-		# shorter_word_sounds['beginning_sounds'] = all_words[shorter_word][:i]
-		# shorter_word_sounds['ending_sounds'] = all_words[shorter_word][-i:]
 		longer_word_sounds = {'beginning_sounds': all_words[longer_word][:i], 'ending_sounds': all_words[longer_word][-i:]}
-		# longer_word_sounds['beginning_sounds'] = all_words[longer_word][:i]
-		# longer_word_sounds['ending_sounds'] = all_words[longer_word][-i:]
 		long_plus_short_str = longer_word + ' + ' + shorter_word
 		short_plus_long_str = shorter_word + ' + ' + longer_word
 		if i > len(all_words[shorter_word]) * 0.34:
 			if (long_plus_short_str, shorter_word_sounds['beginning_sounds']) not in matches:
 				if isShortInLongSounds(shorter_word_sounds['beginning_sounds'],longer_word_sounds['ending_sounds']):
 					matches.append((long_plus_short_str, shorter_word_sounds['beginning_sounds'], i, len(all_words[shorter_word])))
-					# and i > len(all_words[shorter_word])*0.25
 			if (short_plus_long_str, shorter_word_sounds['beginning_sounds']) not in matches:
 				if isShortInLongSounds(shorter_word_sounds['ending_sounds'],longer_word_sounds['beginning_sounds']):
 					matches.append((short_plus_long_str, shorter_word_sounds['ending_sounds'], i, len(all_words[shorter_word])))
@@ -174,6 +169,7 @@ def additiveFromSubject(subject,word):
 #THAT would be super interesting
 
 #def compare_length(input_word,compare_word):
+blavity = """
 word_puns = {}
 word_puns['homophones'] = []
 word_puns['blank_in_blank'] = []
@@ -203,7 +199,10 @@ for key in all_words:
 
 additive_subject = additiveFromSubject(args.subject.upper(),pun_on_this)
 word_puns['additive_subject'] = additive_subject
+"""
 
+#PRINT STATEMENTS HERE
+sartorial = """
 print "Pure Homophones of %s:"
 for i in homophones:
 	print i.lower()
@@ -217,7 +216,29 @@ for i in additive_words:
 	print i
 
 print word_puns
-
+"""
+def get_puns(input_word,input_subject):
+	all_the_puns = {
+		'homophones': [],
+		'blank_in_blank': [],
+		'additive_words': [],
+		'additive_subject': []
+	}
+	for key in all_words:
+		if match_sounds(input_word,key):
+			all_the_puns['homophones'].append(key)
+		#print "More than 1/2 matching sounds in word:"
+		# if different_lengths(pun_on_this,key):
+		# 	contains_component_sounds.append(key)
+		blankInBlank = isWordInOtherWords(input_word,key)
+		if blankInBlank:
+			all_the_puns['blank_in_blank'].append(blankInBlank)
+		for i in doBeginningEndingSoundsMatch(input_word,key):
+			if len(i) > 0:
+				all_the_puns['additive_words'].append(i)
+	additive_subject = additiveFromSubject(input_subject,input_word)
+	all_the_puns['additive_subject'] = additive_subject
+	return all_the_puns
 
 
 	# print i['beginnings']

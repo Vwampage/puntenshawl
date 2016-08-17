@@ -6,6 +6,7 @@ from pprint import pprint
 from nltk.corpus import wordnet as wn
 
 
+
 # class SemanticWord(object):
 # 	def __init__(word, definition, defnition_graph, pronunciation)
 
