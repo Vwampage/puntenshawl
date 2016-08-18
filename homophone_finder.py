@@ -43,7 +43,7 @@ def match_sounds(input_word,compare_word):
 			if sound1 == sound2:
 				sound_matches += 1
 		#Making this >= and also multiplying the length by some factor like 0.6 works, but it's not scientifically rigorous enough for now.
-		if sound_matches == len(all_words[pun_on_this]):
+		if sound_matches == len(all_words[input_word]):
 			return True
 		else:
 			return False
@@ -160,7 +160,7 @@ def additiveFromSubject(subject,word):
 		#This deals with multiple words for now.
 		if synsetToWord(i) in all_words.keys():
 			#need a length thing in beginning and ending sounds matching	
-			for i in doBeginningEndingSoundsMatch(pun_on_this,key):
+			for i in doBeginningEndingSoundsMatch(word,synsetToWord(i)):
 				if len(i) > 0:
 					matches.append(doBeginningEndingSoundsMatch(word,synsetToWord(i)))
 	return matches
@@ -199,10 +199,10 @@ for key in all_words:
 
 additive_subject = additiveFromSubject(args.subject.upper(),pun_on_this)
 word_puns['additive_subject'] = additive_subject
-"""
+
 
 #PRINT STATEMENTS HERE
-sartorial = """
+sartorial = " "
 print "Pure Homophones of %s:"
 for i in homophones:
 	print i.lower()
@@ -216,13 +216,15 @@ for i in additive_words:
 	print i
 
 print word_puns
-"""
-def get_puns(input_word,input_subject):
+#"""
+
+
+def get_puns(input_word):
 	all_the_puns = {
 		'homophones': [],
 		'blank_in_blank': [],
 		'additive_words': [],
-		'additive_subject': []
+		#'additive_subject': []
 	}
 	for key in all_words:
 		if match_sounds(input_word,key):
@@ -236,8 +238,8 @@ def get_puns(input_word,input_subject):
 		for i in doBeginningEndingSoundsMatch(input_word,key):
 			if len(i) > 0:
 				all_the_puns['additive_words'].append(i)
-	additive_subject = additiveFromSubject(input_subject,input_word)
-	all_the_puns['additive_subject'] = additive_subject
+	# additive_subject = additiveFromSubject(input_subject,input_word)
+	# all_the_puns['additive_subject'] = additive_subject
 	return all_the_puns
 
 
