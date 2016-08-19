@@ -1,0 +1,21 @@
+improvements.txt
+
+
+check if a word contains any of the right sounds first
+check if a word contains all of the right sounds before properly comparing them first
+Look for ways to disqualify words
+
+
+Did you use puntenshawl to find any of the title puns?
+
+look up the trie data structure
+
+dictionary with phonemes as the keys
+also reversed direction phonemes
+aka back to front and front to back
+thus with a trie (???) structure it could return anything that starts with the right set of phonemes.
+(also maybe convert them to strings because why the hell not? string comparison is fast, right?)
+HUZZAH.
+
+Find puns on a subject by looping through all the words on a subject
+-holy fuck I need to improve performance for this.
