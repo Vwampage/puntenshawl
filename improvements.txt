@@ -19,3 +19,34 @@ HUZZAH.
 
 Find puns on a subject by looping through all the words on a subject
 -holy fuck I need to improve performance for this.
+
+
+
+look up generators and lazy computing
+also cython for better speed improvements
+
+split dictionary up and do it in parallel across threads
+
+https://wiki.python.org/moin/Generators
+https://jeffknupp.com/blog/2013/04/07/improve-your-python-yield-and-generators-explained/
+https://pypi.python.org/pypi/marisa-trie
+https://github.com/JustinVenus/cython-extras/blob/master/crypto/rsa.pyx
+
+
+
+
+FRANCISCO IACOBELLI at Northeastern University in Illinois
+
+He's into Python and natural language processing
+
+
+We decided two by four cate 
+
+@Matt: Said instructor is going against the grain even if they don't know hew they're making enemies of.
+
+@Kristin: Yes, I saw that I needed two byfourcate my workout so I could root myself in a healthy practice & stick the finish.
+
+
+I'm glad it didn't Fall flat! Thank you for chlorofilling me in on how close I am to my own canopy.
+
+
