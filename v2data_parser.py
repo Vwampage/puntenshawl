@@ -29,7 +29,7 @@ def create_word_key_dict(raw_dictionary):
 				dictionary[word].append(pronunciation)
 	return dictionary
 
-def create_phoneme2_key_dict(raw_dictionary):
+def create_phoneme_key_dict(raw_dictionary):
 	dictionary = {}
 	for i in raw_dictionary:
 		word_as_list = i.strip().split(' ')
@@ -49,23 +49,50 @@ def create_phoneme2_key_dict(raw_dictionary):
 
 
 dict_by_word = create_word_key_dict(open_dictionary())
-dict_by_phoneme = create_phoneme2_key_dict(open_dictionary())
+dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
 
-for i in dict_by_word:
-	if len(dict_by_word[i]) > 1:
-		print i
-		print dict_by_word[i]
+def blank_in_blank(input_word):
+	for i in dict_by_phoneme:
+		input_sounds = ''.join(map(str, dict_by_word[input_word]))
+		compare_sounds = ''.join(map(str, i))
+		if input_sounds in compare_sounds:
+			print "You put the %s in %s!" % (input_word, dict_by_phoneme[i])
+		if compare_sounds in input_sounds:
+			print "You put the %s in %s!" % (dict_by_phoneme[i], input_word)
+
+letters = ''
+
+for i in dict_by_word['SUBMARINE']:
+	print i
+	letters.join(map(str, list(i)))
+
+print letters 
+print '#######'
+
+hi = "potato"
+
+hi.join("cococo")
+
+print hi
+
+blank_in_blank('SUBMARINE')
+print dict_by_word['MARINE']
+print ''.join(map(str, dict_by_word['MARINE'][0]))
+print dict_by_word['SUBMARINE']
+print ''.join(map(str, dict_by_word['SUBMARINE'][1]))
+# for i in dict_by_word:
+# 	if len(dict_by_word[i]) > 1:
+# 		print i
+# 		print dict_by_word[i]
 		
-for i in dict_by_phoneme:
-	if len(dict_by_phoneme[i]) > 1:
-		print i
-		print dict_by_phoneme[i]
+# for i in dict_by_phoneme:
+# 	if len(dict_by_phoneme[i]) > 1:
+# 		print i
+# 		print dict_by_phoneme[i]
 
 # print dict_by_word
-print "HELLO"
-for i in dict_by_word["YOU'RE"]:
-	print i
-	print dict_by_phoneme[i]
-
-
+# print "HELLO"
+# for i in dict_by_word["YOU'RE"]:
+# 	print i
+# 	print dict_by_phoneme[i]
 
