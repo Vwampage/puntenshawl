@@ -19,6 +19,7 @@ pun_on_this = args.single_word.upper()
 #maybe this should be a dictionary of words with a position indicator?
 #also should deal with apostrophes
 #should deal with alternate pronunciations
+
 def parse_sounds(string_of_words):
 	words_to_process = string_of_words.upper().strip().split(' ')
 	dict_of_words = {}

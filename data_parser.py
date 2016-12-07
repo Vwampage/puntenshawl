@@ -19,6 +19,7 @@ def open_dictionary():
 			unparseddict.append(line)
 	return unparseddict
 
+
 def create_dict(dictionary):
 	words = {}
 	for row in dictionary:
