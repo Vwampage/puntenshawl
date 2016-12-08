@@ -38,6 +38,7 @@ def create_phoneme_key_dict(raw_dictionary):
 		if pronunciation in dictionary:
 			if word[-1:] is ')':
 				dictionary[pronunciation].append(word[:-3])
+			else:
 				dictionary[pronunciation].append(word)
 		elif word[-1:] is ')':
 			dictionary[pronunciation] = []
