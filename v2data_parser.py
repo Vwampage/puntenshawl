@@ -1,3 +1,7 @@
+import time
+
+start_time = time.time()
+
 def open_dictionary():
 	unparseddict = []
 	with open('dictionary/cmudict.txt','r') as f:
@@ -48,11 +52,6 @@ def create_phoneme_key_dict(raw_dictionary):
 			dictionary[pronunciation].append(word)
 	return dictionary
 
-
-dict_by_word = create_word_key_dict(open_dictionary())
-dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
-
-
 def compare_two_words_sounds(word1sounds, word2sounds):
 	sounds1 = ' '.join(word1sounds)
 	sounds2 = ' '.join(word2sounds)
@@ -75,11 +74,27 @@ def blank_in_blank(input_word):
 						print "You put the %s in %s!" % (sound1word, sound2word)
 
 
+dict_by_word = create_word_key_dict(open_dictionary())
+dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
 
+blank_start_time = time.time()
 blank_in_blank('HAIRY')
-print dict_by_word['HARRY']
-print dict_by_word['HAIRY']
-print dict_by_phoneme[('HH', 'EH1', 'R', 'IY0')]
+blank_in_blank_end = time.time() - blank_start_time
+print blank_in_blank_end
+
+elapsed_time = time.time() - start_time
+
+print elapsed_time
+
+for i in dict_by_phoneme:
+	print dict_by_phoneme[i]
+	print i
+	#last x items
+	print i[-2:]
+	#first x items
+	print i[:2]
+
+
 
 # letters = ''
 
