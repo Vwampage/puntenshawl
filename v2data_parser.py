@@ -51,35 +51,55 @@ def create_phoneme_key_dict(raw_dictionary):
 dict_by_word = create_word_key_dict(open_dictionary())
 dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
 
+
+def compare_two_words_sounds(word1sounds, word2sounds):
+	sounds1 = ' '.join(word1sounds)
+	sounds2 = ' '.join(word2sounds)
+	if sounds1 in sounds2:
+		return (True, word1sounds, word2sounds)
+	elif sounds2 in sounds1:
+		return (True, word2sounds, word1sounds)
+	return (False, (), ())
+
 def blank_in_blank(input_word):
-	for i in dict_by_phoneme:
-		input_sounds = ''.join(map(str, dict_by_word[input_word]))
-		compare_sounds = ''.join(map(str, i))
-		if input_sounds in compare_sounds:
-			print "You put the %s in %s!" % (input_word, dict_by_phoneme[i])
-		if compare_sounds in input_sounds:
-			print "You put the %s in %s!" % (dict_by_phoneme[i], input_word)
+	#every pronunciation
+	for phoneme_key in dict_by_phoneme:
+		for pronunciation in dict_by_word[input_word]:
+			result = compare_two_words_sounds(pronunciation, phoneme_key)
+			if result[0]:
+				print "Sound1: %s. Words: %s." % (result[1], dict_by_phoneme[result[1]])
+				print "Sound2: %s. Words: %s." % (result[2], dict_by_phoneme[result[2]])
+				for sound1word in dict_by_phoneme[result[1]]:
+					for sound2word in dict_by_phoneme[result[2]]:
+						print "You put the %s in %s!" % (sound1word, sound2word)
 
-letters = ''
 
-for i in dict_by_word['SUBMARINE']:
-	print i
-	letters.join(map(str, list(i)))
 
-print letters 
-print '#######'
+blank_in_blank('HAIRY')
+print dict_by_word['HARRY']
+print dict_by_word['HAIRY']
+print dict_by_phoneme[('HH', 'EH1', 'R', 'IY0')]
 
-hi = "potato"
+# letters = ''
 
-hi.join("cococo")
+# for i in dict_by_word['SUBMARINE']:
+# 	print i
+# 	letters.join(map(str, list(i)))
 
-print hi
+# print letters 
+# print '#######'
 
-blank_in_blank('SUBMARINE')
-print dict_by_word['MARINE']
-print ''.join(map(str, dict_by_word['MARINE'][0]))
-print dict_by_word['SUBMARINE']
-print ''.join(map(str, dict_by_word['SUBMARINE'][1]))
+# hi = "potato"
+
+# hi.join("cococo")
+
+# print hi
+
+# blank_in_blank('SUBMARINE')
+# print dict_by_word['MARINE']
+# print ''.join(map(str, dict_by_word['MARINE'][0]))
+# print dict_by_word['SUBMARINE']
+# print ''.join(map(str, dict_by_word['SUBMARINE'][1]))
 # for i in dict_by_word:
 # 	if len(dict_by_word[i]) > 1:
 # 		print i
