@@ -1,7 +1,5 @@
 import time
 
-start_time = time.time()
-
 def open_dictionary():
 	unparseddict = []
 	with open('dictionary/cmudict.txt','r') as f:
@@ -12,14 +10,13 @@ def open_dictionary():
 			unparseddict.append(line)
 	return unparseddict
 
-
 def create_word_key_dict(raw_dictionary):
 	dictionary = {}
 	for i in raw_dictionary:
 		word_as_list = i.strip().split(' ')
 		word = word_as_list[0]
 		pronunciation = tuple(word_as_list[2:])
-		if word[-1:] is ')':
+		if word[-1:] == ')':
 			if word[:-3] in dictionary:
 				dictionary[word[:-3]].append(pronunciation)
 			else:
@@ -40,11 +37,11 @@ def create_phoneme_key_dict(raw_dictionary):
 		word = word_as_list[0]
 		pronunciation = tuple(word_as_list[2:])
 		if pronunciation in dictionary:
-			if word[-1:] is ')':
+			if word[-1:] == ')':
 				dictionary[pronunciation].append(word[:-3])
 			else:
 				dictionary[pronunciation].append(word)
-		elif word[-1:] is ')':
+		elif word[-1:] == ')':
 			dictionary[pronunciation] = []
 			dictionary[pronunciation].append(word[:-3])
 		else:
@@ -74,25 +71,59 @@ def blank_in_blank(input_word):
 						print "You put the %s in %s!" % (sound1word, sound2word)
 
 
+def slide_together(input_word):
+	for phoneme_key in dict_by_phoneme:
+		for pronunciation in dict_by_word[input_word]:
+			word_length = 0
+			compare_length = len(phoneme_key)
+			input_length = len(pronunciation)
+			if compare_length > input_length:
+				word_length = compare_length
+			else:
+				word_length = input_length
+			number_of_phonemes = 1
+			while number_of_phonemes <= word_length:
+				if phoneme_key[-number_of_phonemes:] == pronunciation[:number_of_phonemes]:
+					for firstword in dict_by_phoneme[phoneme_key]:
+						for secondword in dict_by_phoneme[pronunciation]:
+							print "%s + %s, matches on %s phonemes and those are %s, %s" % (firstword, secondword, number_of_phonemes, phoneme_key[-number_of_phonemes:], pronunciation[:number_of_phonemes])
+							continue
+				number_of_phonemes += 1
+
+
+load_worddict_start = time.time()
 dict_by_word = create_word_key_dict(open_dictionary())
+
+word_dict_time = time.time() - load_worddict_start
+phoneme_dict_start = time.time()
+
 dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
 
-blank_start_time = time.time()
+phoneme_dict_time = time.time() - phoneme_dict_start
+blank_start = time.time()
+
 blank_in_blank('HAIRY')
-blank_in_blank_end = time.time() - blank_start_time
-print blank_in_blank_end
 
-elapsed_time = time.time() - start_time
+blank_end = time.time() - blank_start
 
-print elapsed_time
+slide_start = time.time()
 
-for i in dict_by_phoneme:
-	print dict_by_phoneme[i]
-	print i
-	#last x items
-	print i[-2:]
-	#first x items
-	print i[:2]
+slide_together('SCARY')
+
+slide_end = time.time() - slide_start
+
+
+print "word dictionary time: %s" % word_dict_time
+print "phoneme dict time: %s" % phoneme_dict_time
+print "blank in blank time: %s" % blank_end
+print "slide together time: %s" % slide_end
+# for i in dict_by_phoneme:
+# 	print dict_by_phoneme[i]
+# 	print i
+# 	#last x items
+# 	print i[-2:]
+# 	#first x items
+# 	print i[:2]
 
 
 
