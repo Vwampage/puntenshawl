@@ -3,7 +3,7 @@ import time
 def open_dictionary():
 	unparseddict = []
 	with open('dictionary/cmudict.txt','r') as f:
-		for line in f.readlines():
+		for line in f:
 			#should just do dictionary parsing here
 			if line.startswith(';;;'):
 				continue
@@ -72,6 +72,7 @@ def blank_in_blank(input_word):
 
 
 def slide_together(input_word):
+	matches = {}
 	for phoneme_key in dict_by_phoneme:
 		for pronunciation in dict_by_word[input_word]:
 			word_length = 0
@@ -81,14 +82,30 @@ def slide_together(input_word):
 				word_length = compare_length
 			else:
 				word_length = input_length
-			number_of_phonemes = 1
-			while number_of_phonemes <= word_length:
+			number_of_phonemes = word_length
+			while number_of_phonemes >= 1:
 				if phoneme_key[-number_of_phonemes:] == pronunciation[:number_of_phonemes]:
 					for firstword in dict_by_phoneme[phoneme_key]:
 						for secondword in dict_by_phoneme[pronunciation]:
-							print "%s + %s, matches on %s phonemes and those are %s, %s" % (firstword, secondword, number_of_phonemes, phoneme_key[-number_of_phonemes:], pronunciation[:number_of_phonemes])
-							continue
-				number_of_phonemes += 1
+							if (firstword, secondword) in matches:
+								continue
+							matches[(firstword, secondword)] = (firstword, secondword, number_of_phonemes, pronunciation[:number_of_phonemes])							
+				number_of_phonemes += -1
+			while number_of_phonemes >= 1:
+				if pronunciation[-number_of_phonemes:] == phoneme_key[:number_of_phonemes]:
+					for firstword in dict_by_phoneme[pronunciation]:
+						for secondword in dict_by_phoneme[phoneme_key]:
+							if (firstword, secondword) in matches:
+								continue
+							matches[(firstword, secondword)] = (firstword, secondword, number_of_phonemes, pronunciation[:number_of_phonemes])							
+				number_of_phonemes += -1
+	return matches
+
+#You can't spell ___ without ____
+#def cannot_spell_blank(input_word):
+	
+#String of words into a string of sounds
+
 
 
 load_worddict_start = time.time()
@@ -108,7 +125,10 @@ blank_end = time.time() - blank_start
 
 slide_start = time.time()
 
-slide_together('SCARY')
+matched_combination = slide_together('SCARY')
+for i in matched_combination:
+	print "%s + %s, matches on %s phonemes and those are %s" % matched_combination[i]
+
 
 slide_end = time.time() - slide_start
 
