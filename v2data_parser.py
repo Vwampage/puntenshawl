@@ -119,13 +119,13 @@ dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
 phoneme_dict_time = time.time() - phoneme_dict_start
 blank_start = time.time()
 
-blank_in_blank('HAIRY')
+blank_in_blank('PUN')
 
 blank_end = time.time() - blank_start
 
 slide_start = time.time()
 
-matched_combination = slide_together('SCARY')
+matched_combination = slide_together('PUN')
 for i in matched_combination:
 	print "%s + %s, matches on %s phonemes and those are %s" % matched_combination[i]
 
