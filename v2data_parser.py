@@ -8,11 +8,12 @@ args = parser.parse_args()
 
 PUN_WORD = args.word.upper()
 
+#This method pulls the CMU Pronouncing Dictionary in and sends it off to be parsed. 
 def open_dictionary():
 	unparseddict = []
 	with open('dictionary/cmudict.txt','r') as f:
 		for line in f:
-			#should just do dictionary parsing here
+			#This filters out the comments which all start with that sequence)
 			if line.startswith(';;;'):
 				continue
 			unparseddict.append(line)
@@ -26,6 +27,9 @@ def create_word_key_dict(raw_dictionary):
 		word_as_list = i.strip().split(' ')
 		word = word_as_list[0]
 		pronunciation = tuple(word_as_list[2:])
+		#This removes the (1), (2), or (3) that exist for words for which there are
+		#alternate pronunciations such as 'transport' which has one pronunciation with
+		#AO1 and another with AO0.
 		if word[-1:] == ')':
 			if word[:-3] in dictionary:
 				dictionary[word[:-3]].append(pronunciation)
@@ -130,6 +134,7 @@ def slide_together(input_word):
 	return matches
 
 if __name__ == "__main__":
+	#The timers are to measure performance for the time being.
 	load_worddict_start = time.time()
 	dict_by_word = create_word_key_dict(open_dictionary())
 
