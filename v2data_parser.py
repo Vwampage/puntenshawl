@@ -92,7 +92,6 @@ def blank_in_blank(input_word):
 					for sound2word in dict_by_phoneme[result[2]]:
 						print "You put the %s in %s!" % (sound1word, sound2word)
 
-
 #This is the more computationally expensive comparison. It checks if words
 #have similar beginning and ending sounds such that they could be pronounced one
 #going right into the other. For instance, 'jock' and 'occupancy' overlap in the
@@ -134,14 +133,16 @@ def slide_together(input_word):
 	return matches
 
 if __name__ == "__main__":
-	#The timers are to measure performance for the time being.
+	#The timers are to measure performance.
 	load_worddict_start = time.time()
+	
 	dict_by_word = create_word_key_dict(open_dictionary())
-
+	
 	word_dict_time = time.time() - load_worddict_start
 	phoneme_dict_start = time.time()
-
+	
 	dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
+	
 	if PUN_WORD in dict_by_word:
 		phoneme_dict_time = time.time() - phoneme_dict_start
 		blank_start = time.time()
@@ -164,4 +165,3 @@ if __name__ == "__main__":
 		print "slide together time: %s" % slide_end
 	else:
 		print "Apologies, Puntenshawl does not know how to pronounce %s." % PUN_WORD
-
