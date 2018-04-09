@@ -2,7 +2,7 @@ import time
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-w", "--word", help = "This is the word to generate sound relationships for.", type = str)
+parser.add_argument("-w", "--word", help = "This is the word to generate sound relationships for.", type = str, default = "hello")
 
 args = parser.parse_args()
 
