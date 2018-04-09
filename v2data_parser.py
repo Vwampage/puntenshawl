@@ -1,4 +1,12 @@
 import time
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-w", "--word", help = "This is the word to generate sound relationships for.", type = str)
+
+args = parser.parse_args()
+
+PUN_WORD = args.word.upper()
 
 def open_dictionary():
 	unparseddict = []
@@ -10,6 +18,8 @@ def open_dictionary():
 			unparseddict.append(line)
 	return unparseddict
 
+#This creates a dict object with the english word as the key
+#and all pronunciations as a tuple for that key.
 def create_word_key_dict(raw_dictionary):
 	dictionary = {}
 	for i in raw_dictionary:
@@ -30,6 +40,8 @@ def create_word_key_dict(raw_dictionary):
 				dictionary[word].append(pronunciation)
 	return dictionary
 
+#This creates a dict object with the pronunciation as a key
+#and all words that have that pronunciation as a tuple for that key.
 def create_phoneme_key_dict(raw_dictionary):
 	dictionary = {}
 	for i in raw_dictionary:
@@ -49,6 +61,10 @@ def create_phoneme_key_dict(raw_dictionary):
 			dictionary[pronunciation].append(word)
 	return dictionary
 
+#This takes two words' sounds, concatenates the list of sounds into one string,
+#and figures out if the sounds from one word exist in enother word.
+#It returns immediately upon finding a match because while Paul may
+#exist in metropolitan metropolitan will not exist in Paul.
 def compare_two_words_sounds(word1sounds, word2sounds):
 	sounds1 = ' '.join(word1sounds)
 	sounds2 = ' '.join(word2sounds)
@@ -58,8 +74,10 @@ def compare_two_words_sounds(word1sounds, word2sounds):
 		return (True, word2sounds, word1sounds)
 	return (False, (), ())
 
+#If a word's sounds exist in another word it works well for this
+#joke construction.
 def blank_in_blank(input_word):
-	#every pronunciation
+	#The nested loops are to deal with every pronunciation.
 	for phoneme_key in dict_by_phoneme:
 		for pronunciation in dict_by_word[input_word]:
 			result = compare_two_words_sounds(pronunciation, phoneme_key)
@@ -71,6 +89,10 @@ def blank_in_blank(input_word):
 						print "You put the %s in %s!" % (sound1word, sound2word)
 
 
+#This is the more computationally expensive comparison. It checks if words
+#have similar beginning and ending sounds such that they could be pronounced one
+#going right into the other. For instance, 'jock' and 'occupancy' overlap in the
+#"ock" sound they share, which is represented in the CMU Pronouncing Dictionary as 'AA1', 'K'.
 def slide_together(input_word):
 	matches = {}
 	for phoneme_key in dict_by_phoneme:
@@ -78,11 +100,17 @@ def slide_together(input_word):
 			word_length = 0
 			compare_length = len(phoneme_key)
 			input_length = len(pronunciation)
+			#This comparison is so that the script only iterates for the length of the shorter of the words
+			#rather than looking for a long word within a short word.
 			if compare_length > input_length:
 				word_length = compare_length
 			else:
 				word_length = input_length
 			number_of_phonemes = word_length
+			#The whole shenaniganry below is because while comparing the *sounds* is pretty easy, there are
+			#potentially a lot of words that have those sounds. So this has to go through all the word combinations.
+			#I know, I also don't like the nested for loops. That should probably abstract that into a separate
+			#method at some point.
 			while number_of_phonemes >= 1:
 				if phoneme_key[-number_of_phonemes:] == pronunciation[:number_of_phonemes]:
 					for firstword in dict_by_phoneme[phoneme_key]:
@@ -101,85 +129,34 @@ def slide_together(input_word):
 				number_of_phonemes += -1
 	return matches
 
-#You can't spell ___ without ____
-#def cannot_spell_blank(input_word):
-	
-#String of words into a string of sounds
+if __name__ == "__main__":
+	load_worddict_start = time.time()
+	dict_by_word = create_word_key_dict(open_dictionary())
 
+	word_dict_time = time.time() - load_worddict_start
+	phoneme_dict_start = time.time()
 
+	dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
+	if PUN_WORD in dict_by_word:
+		phoneme_dict_time = time.time() - phoneme_dict_start
+		blank_start = time.time()
 
-load_worddict_start = time.time()
-dict_by_word = create_word_key_dict(open_dictionary())
+		blank_in_blank(PUN_WORD)
 
-word_dict_time = time.time() - load_worddict_start
-phoneme_dict_start = time.time()
+		blank_end = time.time() - blank_start
 
-dict_by_phoneme = create_phoneme_key_dict(open_dictionary())
+		slide_start = time.time()
 
-phoneme_dict_time = time.time() - phoneme_dict_start
-blank_start = time.time()
+		matched_combination = slide_together(PUN_WORD)
+		for i in matched_combination:
+			print "%s + %s, matches on %s phonemes and those are %s" % matched_combination[i]
 
-blank_in_blank('PUN')
+		slide_end = time.time() - slide_start
 
-blank_end = time.time() - blank_start
-
-slide_start = time.time()
-
-matched_combination = slide_together('PUN')
-for i in matched_combination:
-	print "%s + %s, matches on %s phonemes and those are %s" % matched_combination[i]
-
-
-slide_end = time.time() - slide_start
-
-
-print "word dictionary time: %s" % word_dict_time
-print "phoneme dict time: %s" % phoneme_dict_time
-print "blank in blank time: %s" % blank_end
-print "slide together time: %s" % slide_end
-# for i in dict_by_phoneme:
-# 	print dict_by_phoneme[i]
-# 	print i
-# 	#last x items
-# 	print i[-2:]
-# 	#first x items
-# 	print i[:2]
-
-
-
-# letters = ''
-
-# for i in dict_by_word['SUBMARINE']:
-# 	print i
-# 	letters.join(map(str, list(i)))
-
-# print letters 
-# print '#######'
-
-# hi = "potato"
-
-# hi.join("cococo")
-
-# print hi
-
-# blank_in_blank('SUBMARINE')
-# print dict_by_word['MARINE']
-# print ''.join(map(str, dict_by_word['MARINE'][0]))
-# print dict_by_word['SUBMARINE']
-# print ''.join(map(str, dict_by_word['SUBMARINE'][1]))
-# for i in dict_by_word:
-# 	if len(dict_by_word[i]) > 1:
-# 		print i
-# 		print dict_by_word[i]
-		
-# for i in dict_by_phoneme:
-# 	if len(dict_by_phoneme[i]) > 1:
-# 		print i
-# 		print dict_by_phoneme[i]
-
-# print dict_by_word
-# print "HELLO"
-# for i in dict_by_word["YOU'RE"]:
-# 	print i
-# 	print dict_by_phoneme[i]
+		print "word dictionary time: %s" % word_dict_time
+		print "phoneme dict time: %s" % phoneme_dict_time
+		print "blank in blank time: %s" % blank_end
+		print "slide together time: %s" % slide_end
+	else:
+		print "Apologies, Puntenshawl does not know how to pronounce %s." % PUN_WORD
 
